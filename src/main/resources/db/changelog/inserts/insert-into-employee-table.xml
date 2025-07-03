@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="2" author="Artiom" runAlways="true">
+        <delete tableName="employees"/>
+
+        <insert tableName="employees">
+            <column name="id" value="35b7d33b-7e29-4709-b2ce-e58073fb4cbb"/>
+            <column name="name" value="Joe"/>
+            <column name="email" value="joe@gmail.com"/>
+            <column name="position" value="Intern"/>
+            <column name="salary" valueNumeric="300"/>
+        </insert>
+
+        <insert tableName="employees">
+            <column name="id" value="d4a8a850-f3b5-4d49-9131-a1f9a2ec3b27"/>
+            <column name="name" value="Anna"/>
+            <column name="email" value="anna@company.com"/>
+            <column name="position" value="Senior Developer"/>
+            <column name="salary" valueNumeric="7500"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

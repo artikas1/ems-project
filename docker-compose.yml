@@ -1,0 +1,61 @@
+version: '3.9'
+
+services:
+  postgres-db:
+    image: postgres:16.2
+    container_name: postgres-db
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: mydb
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.2.5
+    container_name: my_keycloak
+    ports:
+      - "8080:8080"
+    environment:
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres-db:5432/mydb
+      KC_DB_USERNAME: myuser
+      KC_DB_PASSWORD: mypassword
+      KC_DB_SCHEMA: public
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_IMPORT: /opt/keycloak/data/import/realm.json
+    volumes:
+      - keycloak_data:/opt/keycloak/data
+      - ./keycloak:/opt/keycloak/data/import
+    command: start-dev --import-realm
+    depends_on:
+      - postgres-db
+    restart: unless-stopped
+
+#  ems-backend:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    container_name: ems-backend
+#    ports:
+#      - "8081:8080"  # backend runs on 8080, exposed as 8081 on host
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-db:5432/mydb
+#      SPRING_DATASOURCE_USERNAME: myuser
+#      SPRING_DATASOURCE_PASSWORD: mypassword
+#      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+#      KEYCLOAK_AUTH_SERVER_URL: http://my_keycloak:8080
+#      KEYCLOAK_REALM: ems-realm
+#      KEYCLOAK_RESOURCE: ems-client
+#    depends_on:
+#      - postgres-db
+#      - keycloak
+#    restart: unless-stopped
+
+volumes:
+  pgdata:
+  keycloak_data:
