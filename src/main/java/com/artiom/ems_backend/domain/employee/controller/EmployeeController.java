@@ -13,7 +13,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/employees")
 @AllArgsConstructor
-@EnableMethodSecurity
+//@EnableMethodSecurity
 public class EmployeeController {
 
     private final EmployeeService employeeService;

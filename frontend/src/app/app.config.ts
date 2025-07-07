@@ -19,7 +19,6 @@ export const appConfig: ApplicationConfig = {
         onLoad: 'check-sso',
         silentCheckSsoRedirectUri: window.location.origin + '/assets/silent-check-sso.html'
       }
-    }),
-    KeycloakService
+    })
   ]
 };
